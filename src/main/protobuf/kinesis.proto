@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package example.kinesis.events;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+    single_file: true
+    flat_package: true
+    preamble: "sealed trait KinesisEvent"
+};
+
+message SomethingHasHappenedKinesisEvt {
+    option (scalapb.message).extends = "KinesisEvent";
+
+    int32 value = 1;
+    string user = 2;
+    string date = 3;
+}

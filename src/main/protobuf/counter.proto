@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package example.actors.counter;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+    single_file: true
+    flat_package: true
+    preamble: "sealed trait Command"
+    preamble: "sealed trait Event"
+};
+
+message IncrementCmd {
+    option (scalapb.message).extends = "Command";
+
+    int32 value = 1;
+    string user = 2;
+
+}
+
+message ReadValueCmd {
+    option (scalapb.message).extends = "Command";
+}
+
+message IncrementedEvt {
+    option (scalapb.message).extends = "Event";
+
+    int32 value = 1;
+    string user = 2;
+    string date = 3;
+}
