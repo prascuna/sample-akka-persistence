@@ -8,7 +8,7 @@ lazy val root = (project in file(".")).settings(
       version := "0.1.0-SNAPSHOT"
     )
   ),
-  name := "sample-akka-persistance",
+  name := "sample-akka-persistence",
   libraryDependencies ++= Dependencies.compile ++ Dependencies.test
 )
 
