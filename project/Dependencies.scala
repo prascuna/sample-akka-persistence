@@ -16,7 +16,7 @@ object Dependencies {
     "com.typesafe.akka" %% "akka-http"   % "10.1.4",
     "com.typesafe.akka" %% "akka-persistence-dynamodb" % "1.1.1",
 //    "com.lightbend.akka" %% "akka-stream-alpakka-kinesis" % "0.20",
-    "software.amazon.kinesis" % "amazon-kinesis-client" % "2.0.1",
+    "software.amazon.kinesis" % "amazon-kinesis-client" % "2.0.2",
     "com.amazonaws" % "amazon-kinesis-producer" % "0.12.9",
     "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
   )
