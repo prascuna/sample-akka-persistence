@@ -1,5 +1,3 @@
-
-
 lazy val root = (project in file(".")).settings(
   inThisBuild(
     List(
@@ -12,6 +10,4 @@ lazy val root = (project in file(".")).settings(
   libraryDependencies ++= Dependencies.compile ++ Dependencies.test
 )
 
-PB.targets in Compile := Seq(
-  scalapb.gen() -> (sourceManaged in Compile).value
-)
+PB.targets in Compile := Seq(scalapb.gen() -> (sourceManaged in Compile).value)

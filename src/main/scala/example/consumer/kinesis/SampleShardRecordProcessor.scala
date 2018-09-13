@@ -1,12 +1,11 @@
 package example.consumer.kinesis
+import java.nio.ByteBuffer
+
 import example.ConsumerApp.counterActor
 import example.actors.counter.IncrementCmd
 import example.kinesis.events.SomethingHasHappenedKinesisEvt
 import software.amazon.kinesis.lifecycle.events._
-import software.amazon.kinesis.processor.{
-  ShardRecordProcessor,
-  ShardRecordProcessorFactory
-}
+import software.amazon.kinesis.processor.{ShardRecordProcessor, ShardRecordProcessorFactory}
 
 class SampleShardRecordProcessor extends ShardRecordProcessor {
   override def initialize(initializationInput: InitializationInput): Unit =
@@ -22,7 +21,7 @@ class SampleShardRecordProcessor extends ShardRecordProcessor {
       println(
         s"processing record. PK: ${r.partitionKey()} | Seq: ${r.sequenceNumber()}"
       )
-      val byteBuffer = r.data()
+      val byteBuffer: ByteBuffer = r.data()
       val data = new Array[Byte](byteBuffer.remaining())
       byteBuffer.get(data)
       try {
