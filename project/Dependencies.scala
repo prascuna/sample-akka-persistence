@@ -18,6 +18,7 @@ object Dependencies {
 //    "com.lightbend.akka" %% "akka-stream-alpakka-kinesis" % "0.20",
     "software.amazon.kinesis" % "amazon-kinesis-client" % "2.0.2",
     "com.amazonaws" % "amazon-kinesis-producer" % "0.12.9",
+    "com.amazonaws" % "amazon-kinesis-client" % "1.9.2",
     "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
   )
 }

@@ -55,7 +55,7 @@ object ConsumerApp extends App {
     kinesisClient,
     dynamoClient,
     cloudWatchClient,
-    UUID.randomUUID().toString,
+    "team55-worker-id" + UUID.randomUUID().toString,
     SampleShardRecordProcessor.factory
   )
   val scheduler = new Scheduler(
