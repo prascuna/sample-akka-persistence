@@ -43,7 +43,7 @@ object ConsumerAppKCL1 extends App {
     .withDynamoDBEndpoint("http://localhost:8000")
 
   val worker = new Worker.Builder()
-    .recordProcessorFactory(RecordProcessorKCL1.factory)
+    .recordProcessorFactory(RecordProcessorKCL1.factory(counterActor))
     .config(kinesisConfig)
     .build()
 

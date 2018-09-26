@@ -1,18 +1,11 @@
 package example.consumerkcl1
-import com.amazonaws.services.kinesis.clientlibrary.interfaces.v2.{
-  IRecordProcessor,
-  IRecordProcessorFactory
-}
-import com.amazonaws.services.kinesis.clientlibrary.types.{
-  InitializationInput,
-  ProcessRecordsInput,
-  ShutdownInput
-}
-import example.ConsumerAppKCL1.counterActor
+import akka.actor.ActorRef
+import com.amazonaws.services.kinesis.clientlibrary.interfaces.v2.{IRecordProcessor, IRecordProcessorFactory}
+import com.amazonaws.services.kinesis.clientlibrary.types.{InitializationInput, ProcessRecordsInput, ShutdownInput}
 import example.actors.counter.IncrementCmd
 import example.kinesis.events.SomethingHasHappenedKinesisEvt
 
-class RecordProcessorKCL1 extends IRecordProcessor {
+class RecordProcessorKCL1(actorRef: ActorRef) extends IRecordProcessor {
   override def initialize(initializationInput: InitializationInput): Unit =
     println(
       s"Initialising. ShardId = ${initializationInput.getShardId} | Sequence = ${initializationInput.getExtendedSequenceNumber}"
@@ -32,7 +25,7 @@ class RecordProcessorKCL1 extends IRecordProcessor {
       try {
         val kinesisEvent = SomethingHasHappenedKinesisEvt.parseFrom(data)
         println(s"Kinesis Message received: $kinesisEvent")
-        counterActor ! IncrementCmd(kinesisEvent.value, kinesisEvent.user)
+        actorRef ! IncrementCmd(kinesisEvent.value, kinesisEvent.user)
         // In reality we should checkpoint only after all records have been processed, so the Counter Actor should send an ACK,
         // and only after that we should checkpoint
         processRecordsInput
@@ -50,8 +43,6 @@ class RecordProcessorKCL1 extends IRecordProcessor {
     println("shutdown requested")
 }
 object RecordProcessorKCL1 {
-  val factory = new IRecordProcessorFactory {
-    override def createProcessor(): IRecordProcessor =
-      new RecordProcessorKCL1()
-  }
+  def factory(actorRef: ActorRef): IRecordProcessorFactory =
+    () => new RecordProcessorKCL1(actorRef)
 }
