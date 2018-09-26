@@ -5,9 +5,7 @@ services:
     ports:
     - "8000:8000"
   kinesis:
-#    image: dlsniper/kinesalite
     image: instructure/kinesalite
     ports:
     - "4567:4567"
-    environment:
-      - AWS_CBOR_DISABLE=true
+    command: --ssl

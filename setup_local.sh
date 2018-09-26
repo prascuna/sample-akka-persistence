@@ -17,4 +17,4 @@ aws dynamodb create-table \
 --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
 --local-secondary-indexes 'IndexName=ts-idx,KeySchema=[{AttributeName=par,KeyType=HASH},{AttributeName=ts,KeyType=RANGE}],Projection={ProjectionType=KEYS_ONLY}'
 
-aws --endpoint-url http://0.0.0.0:4567 --output json kinesis create-stream --stream-name team55-test-stream --shard-count 1
+aws --no-verify-ssl --endpoint-url https://0.0.0.0:4567 --output json kinesis create-stream --stream-name team55-test-stream --shard-count 1

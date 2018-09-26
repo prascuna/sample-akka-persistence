@@ -8,7 +8,10 @@ import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
-import com.amazonaws.services.kinesis.clientlibrary.lib.worker.{KinesisClientLibConfiguration, Worker}
+import com.amazonaws.services.kinesis.clientlibrary.lib.worker.{
+  KinesisClientLibConfiguration,
+  Worker
+}
 import example.actors.counter.CounterActor
 import example.consumer.http.Routes
 import example.consumerkcl1.RecordProcessorKCL1
@@ -30,19 +33,19 @@ object ConsumerAppKCL1 extends App {
   val bindingFuture = Http().bindAndHandle(routes, "localhost", 8080)
 
   // AWS KCL
-
+  System.setProperty("aws.cborEnabled", "false") // requited only for local
   val kinesisConfig = new KinesisClientLibConfiguration(
     "team55-team-application",
     "team55-test-stream",
     new DefaultAWSCredentialsProviderChain(),
     "team55-worker-id" + UUID.randomUUID().toString
-  )
+  ).withKinesisEndpoint("https://kinesalite:4567")
+    .withDynamoDBEndpoint("http://localhost:8000")
 
   val worker = new Worker.Builder()
-    .recordProcessorFactory(RecordProcessorKCL1.factory)
+    .recordProcessorFactory(RecordProcessorKCL1.factory(counterActor))
     .config(kinesisConfig)
     .build()
-
 
   val schedulerThread = new Thread(worker)
   schedulerThread.setDaemon(true)

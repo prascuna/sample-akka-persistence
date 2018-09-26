@@ -15,8 +15,9 @@ import scala.concurrent.{Await, Future, Promise}
 object ProducerApp extends App {
   val config = new KinesisProducerConfiguration()
     .setRegion(Region.US_EAST_1.toString)
-//    .setKinesisEndpoint("localhost")
-//    .setKinesisPort(4567)
+    .setKinesisEndpoint("localhost")
+    .setKinesisPort(4567)
+    .setVerifyCertificate(false)
 
   val kinesisProducer = new KinesisProducer(config)
 
