@@ -24,7 +24,7 @@ import scala.concurrent.duration._
 
 object ConsumerApp extends App {
 
-  System.setProperty("com.amazonaws.sdk.disableCertChecking", "1")
+  System.setProperty("com.amazonaws.sdk.disableCertChecking", "1")// required only for local
 
   implicit val system = ActorSystem("my-system")
   implicit val materializer = ActorMaterializer()
@@ -50,7 +50,7 @@ object ConsumerApp extends App {
     .region(Region.US_EAST_1)
     .endpointOverride(new URI("http://localhost:1234")) // does not exist
     .build()
-  System.setProperty("aws.cborEnabled", "false")
+  System.setProperty("aws.cborEnabled", "false") // required only for local
   val kinesisClient = KinesisAsyncClient
     .builder()
     .region(Region.US_EAST_1)

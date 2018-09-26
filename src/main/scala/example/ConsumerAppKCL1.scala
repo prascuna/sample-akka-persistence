@@ -33,7 +33,7 @@ object ConsumerAppKCL1 extends App {
   val bindingFuture = Http().bindAndHandle(routes, "localhost", 8080)
 
   // AWS KCL
-  System.setProperty("aws.cborEnabled", "false")
+  System.setProperty("aws.cborEnabled", "false") // requited only for local
   val kinesisConfig = new KinesisClientLibConfiguration(
     "team55-team-application",
     "team55-test-stream",
